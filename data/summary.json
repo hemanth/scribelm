@@ -1,0 +1,41 @@
+{
+  "total_posts_parsed": 388,
+  "total_examples": 1341,
+  "splits": {
+    "train": 1072,
+    "val": 123,
+    "test": 146
+  },
+  "curated_pairs": [
+    {
+      "id": "rewrite_nullspan_launch",
+      "topic": "nullspan structured extraction launch",
+      "input": "Baked nullspan a single-pass structured extraction with exact [start, end] character spans, calibrated p_null abstention, algebraic invariant checks (subtotal == nodes * hourly_rate), and p10/p50/p90 quantiles. Benchmarked across 3 runtime tiers (B=1,000 bootstrap 95% CIs): Tier 1A (PyTorch FP32, 67M): 100% Structured/Math/Injection EM, 91.7% SQuAD v2.0 (100% abstention, 0.999 AUROC). Tier 1B (Browser ONNX Int8, 64.3 MB, 3.98x smaller): 100% Structured, 90.0% SQuAD v2.0 client-side in WASM SIMD. Tier 2 (Zero-Dep JS/Py Engine, 0 MB): 0 dependencies, 100% Structured & Invariant EM at 0.023 ms/field.",
+      "output": "Meet nullspan: a structured extraction engine that pulls exact `[start, end]` spans from text, knows when a value isn't there instead of making one up (`p_null`), and double-checks the math (`subtotal == nodes * hourly_rate`).\n\nYou can run it three ways:\n- \u26a1 Full neural model (PyTorch, 67M): 98.8% overall \u2014 100% on structured & math checks, 91.7% on SQuAD v2.0, and 100% at spotting unanswerable prompts.\n- \ud83c\udf10 Browser-native (64 MB WASM): 4\u00d7 smaller quantized model running entirely in the browser with 90% SQuAD v2.0 accuracy.\n- \ud83d\ude80 Zero-dependency JS/Python (0 MB): Deterministic lexical + AST math engine \u2014 100% on structured logs/invoices in 0.005 ms."
+    },
+    {
+      "id": "rewrite_skills_vs_mcp",
+      "topic": "Skills vs MCP for AI Agents",
+      "input": "In contemporary artificial intelligence agent architectures, practitioners often debate whether modular Skill definitions supersede the Model Context Protocol (MCP). However, a comprehensive evaluation indicates that these two paradigms address orthogonal concerns: Skills encapsulate domain-specific procedural knowledge, whereas MCP facilitates external system connectivity.",
+      "output": "Skills vs MCP? Wrong question.\n\nBoth are tools for building AI agents. But they solve different problems:\n- Skills = what your agent knows how to do\n- MCP = what your agent can access\n\nOne teaches. One connects. You need both."
+    },
+    {
+      "id": "rewrite_token_budgets",
+      "topic": "Zero-overhead token budgets for agent loops",
+      "input": "Autonomous language model loops frequently suffer from unbounded token consumption and runaway API expenditures due to recursive tool invocation. By implementing deterministic per-turn accounting and circuit-breaker thresholds, engineering teams can mitigate financial risk without adding latency.",
+      "output": "Unbounded agent loops burn tokens fast.\n\n`token-budgets` fixes this with zero-overhead circuit breakers:\n- `recordTurn()` logs usage per step\n- `checkBudget()` enforces hard token and dollar ceilings\n- `evaluate()` trips the circuit breaker before a runaway loop drains your API key\n\nZero dependencies. Runs in <0.01 ms."
+    },
+    {
+      "id": "rewrite_scribefont",
+      "topic": "Handwriting to installable OpenType vector font",
+      "input": "We have developed a multi-tier handwriting vectorization pipeline capable of converting rasterized handwritten character samples into standard TrueType and OpenType font binaries utilizing cubic Bezier curve fitting and neural style conditioning.",
+      "output": "Meet scribefont: turn a sample of your handwriting into a real, installable `.ttf` / `.otf` vector font.\n\nTwo ways to run it:\n- \u26a1 Neural Style Encoder (PyTorch / Browser ONNX Int8): learns your stroke slant, x-height, and curves from a few sample letters and synthesizes the full alphabet.\n- \ud83d\ude80 Zero-Dep Geometric Vectorizer (0 MB JS/Python): traces contours, fits smooth cubic B\u00e9ziers, and packs binary OpenType tables directly in <1 ms/glyph."
+    },
+    {
+      "id": "rewrite_agentu_codelab",
+      "topic": "Interactive browser codelab for agentu",
+      "input": "To facilitate developer onboarding for the agentu framework, we have constructed a browser-based educational environment utilizing WebAssembly and Pyodide that enables users to execute 41 lessons covering memory, guardrails, and workflows without local environment configuration.",
+      "output": "Learn `agentu` by doing \u2014 41 interactive Python lessons running directly in your browser via Pyodide.\n\nCovers tools, permissions, always-on memory, guardrails, workflows, MCP, durable agents, and loop engineering. Zero setup. Edit code, hit Run, and build real agents in ~2 hours."
+    }
+  ]
+}

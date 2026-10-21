@@ -1,0 +1,33 @@
+{
+  "name": "scribelm",
+  "version": "0.1.0",
+  "description": "Write, rewrite, and critique technical prose in Hemanth HM's voice across PyTorch, Browser ONNX, and Zero-Dep JS/Python.",
+  "type": "module",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/index.test.js"
+  },
+  "keywords": [
+    "hemanth",
+    "scribe",
+    "llm",
+    "onnx",
+    "style-transfer",
+    "technical-writing"
+  ],
+  "author": "Hemanth HM <hemanth@h3manth.com> (https://h3manth.com)",
+  "license": "MIT"
+}

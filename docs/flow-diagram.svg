@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 340" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .box { fill: #ffffff; stroke: #000000; stroke-width: 1.2; rx: 6; }
+      .box-dashed { fill: #ffffff; stroke: #000000; stroke-width: 1.2; stroke-dasharray: 4,4; rx: 6; }
+      .hero-box { fill: #000000; stroke: #000000; stroke-width: 1.5; rx: 6; }
+      .badge { fill: #ffffff; stroke: #000000; stroke-width: 1.2; rx: 3; }
+      .badge-inv { fill: #000000; stroke: #ffffff; stroke-width: 1.2; rx: 3; }
+      .title { font-family: 'IBM Plex Mono', 'Geist Mono', monospace; font-size: 12px; font-weight: 700; fill: #000000; }
+      .title-inv { font-family: 'IBM Plex Mono', 'Geist Mono', monospace; font-size: 13px; font-weight: 700; fill: #ffffff; }
+      .sub { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 11px; fill: #222222; }
+      .sub-inv { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 11px; fill: #e5e5e5; }
+      .role { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; fill: #000000; }
+      .role-inv { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; fill: #ffffff; }
+      .wire { fill: none; stroke: #000000; stroke-width: 1.2; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#000000" />
+    </marker>
+  </defs>
+
+  <rect width="1080" height="340" class="bg" />
+
+  <!-- Outer Cluster -->
+  <rect x="16" y="16" width="1048" height="308" class="box-dashed" />
+  <text x="32" y="38" class="role">SCRIBELM · 3-TIER HEMANTH HM VOICE &amp; AUTHORING ARCHITECTURE (388 POSTS · 71.1M NEURAL + ZERO-DEP ENGINE)</text>
+
+  <!-- Stage 1: Corpus & Prompt Input -->
+  <rect x="34" y="64" width="210" height="236" class="box" />
+  <rect x="48" y="78" width="112" height="20" class="badge" />
+  <text x="56" y="92" class="role">[ CORPUS &amp; INPUT ]</text>
+  <text x="48" y="122" class="title">~/labs/scribe (388 Posts)</text>
+  <text x="48" y="142" class="sub">• 230k tokens (2010–2026)</text>
+  <text x="48" y="160" class="sub">• Blog + Social + Rewrites</text>
+  <line x1="48" y1="176" x2="230" y2="176" stroke="#000000" stroke-width="1" stroke-dasharray="3,3" />
+  <text x="48" y="198" class="title">4 Task Prompts</text>
+  <text x="48" y="218" class="sub">1. &lt;|task:blog|&gt; Markdown</text>
+  <text x="48" y="236" class="sub">2. &lt;|task:rewrite|&gt; De-fluff</text>
+  <text x="48" y="254" class="sub">3. &lt;|task:social|&gt; HN/LI/X</text>
+  <text x="48" y="272" class="sub">4. &lt;|task:critic|&gt; Telemetry</text>
+
+  <!-- Wire 1 -> 2 -->
+  <path d="M 244 182 L 288 182" class="wire" marker-end="url(#arrow)" />
+
+  <!-- Stage 2: Tier 2 Zero-Dep Fast Engine -->
+  <rect x="292" y="64" width="224" height="236" class="box" />
+  <rect x="306" y="78" width="142" height="20" class="badge" />
+  <text x="314" y="92" class="role">[ TIER 2 · ZERO-DEP ]</text>
+  <text x="306" y="122" class="title">Lexical &amp; AST Composer</text>
+  <text x="306" y="142" class="sub">• 0 MB weights · 0 npm/pip deps</text>
+  <text x="306" y="160" class="sub">• Corporate fluff stripper</text>
+  <text x="306" y="178" class="sub">• Tier/metric bullet compiler</text>
+  <text x="306" y="196" class="sub">• 5-axis cadence scorer</text>
+  <rect x="306" y="216" width="196" height="66" class="box" />
+  <text x="318" y="238" class="title">Sub-ms Fast Path</text>
+  <text x="318" y="256" class="sub">• p50 latency: ~0.02 ms</text>
+  <text x="318" y="272" class="sub">• Instant browser &amp; CLI</text>
+
+  <!-- Wire 2 -> 3 -->
+  <path d="M 516 182 L 560 182" class="wire" marker-end="url(#arrow)" />
+
+  <!-- Stage 3: HERO INVERTED NODE — ScribeLMForAuthoring -->
+  <rect x="564" y="54" width="256" height="256" class="hero-box" />
+  <rect x="580" y="70" width="184" height="20" class="badge-inv" />
+  <text x="588" y="84" class="role-inv">[ TIER 1 · NEURAL ENGINE ]</text>
+  <text x="580" y="114" class="title-inv">ScribeLMForAuthoring (71.1M)</text>
+  <text x="580" y="134" class="sub-inv">• 12-Layer SmolLM2 Transformer</text>
+  <text x="580" y="152" class="sub-inv">• Hidden d=576 · Eager Attention</text>
+  <text x="580" y="170" class="sub-inv">• Tier 1A: PyTorch FP32 (271 MB)</text>
+  <text x="580" y="188" class="sub-inv">• Tier 1B: ONNX QUInt8 (72 MB WASM)</text>
+  <line x1="580" y1="204" x2="804" y2="204" stroke="#ffffff" stroke-width="1" stroke-dasharray="3,3" />
+  <text x="580" y="224" class="title-inv">4 Joint Multi-Task Heads</text>
+  <text x="580" y="244" class="sub-inv">• lm_head (49,152 vocab causal)</text>
+  <text x="580" y="262" class="sub-inv">• voice_head (calibrated p_hemanth)</text>
+  <text x="580" y="280" class="sub-inv">• style_head (5 axes) + task_head (4)</text>
+
+  <!-- Wire 3 -> 4 -->
+  <path d="M 820 182 L 864 182" class="wire" marker-end="url(#arrow)" />
+
+  <!-- Stage 4: Calibrated Output & Telemetry -->
+  <rect x="868" y="64" width="178" height="236" class="box" />
+  <rect x="882" y="78" width="118" height="20" class="badge" />
+  <text x="890" y="92" class="role">[ OUTPUT &amp; CRITIC ]</text>
+  <text x="882" y="122" class="title">Hemanth Voice Output</text>
+  <text x="882" y="142" class="sub">• Markdown Blog Post</text>
+  <text x="882" y="160" class="sub">• Punchy Rewrite</text>
+  <text x="882" y="178" class="sub">• LI / HN / Reddit / X</text>
+  <line x1="882" y1="194" x2="1032" y2="194" stroke="#000000" stroke-width="1" stroke-dasharray="3,3" />
+  <text x="882" y="214" class="title">5-Axis Telemetry</text>
+  <text x="882" y="234" class="sub">• p_hemanth [0..1]</text>
+  <text x="882" y="252" class="sub">• directness · zero_fluff</text>
+  <text x="882" y="270" class="sub">• hook · code · cadence</text>
+</svg>

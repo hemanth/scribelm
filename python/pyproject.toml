@@ -1,0 +1,30 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "scribelm"
+version = "0.1.0"
+description = "Write, rewrite, and critique technical prose in Hemanth HM's voice across PyTorch, Browser ONNX, and Zero-Dep JS/Python."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Hemanth HM", email = "hemanth@h3manth.com" }
+]
+keywords = ["hemanth", "scribe", "llm", "onnx", "style-transfer", "technical-writing"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+hf = ["torch>=2.0.0", "transformers>=4.40.0", "safetensors>=0.4.0"]
+onnx = ["onnxruntime>=1.16.0", "transformers>=4.40.0", "numpy>=1.24.0"]
+
+[project.urls]
+Homepage = "https://hemanth.github.io/scribelm/"
+Repository = "https://github.com/hemanth/scribelm"
+Model = "https://huggingface.co/gnumanth/scribelm"

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scribelm · Write, Rewrite &amp; Critique Technical Prose in Hemanth HM's Voice</title>
+  <style>
+    :root {
+      --bg: #FBFAF7;
+      --surface: #FFFFFF;
+      --muted-bg: #F3F0E8;
+      --ink: #111111;
+      --ink-muted: #52504A;
+      --border: #111111;
+      --border-subtle: #E5E1D8;
+      --accent-span: #FFE484;
+      --accent-ok: #C8F0D4;
+      --accent-warn: #F5D0CE;
+      --mono: "IBM Plex Mono", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1.5px solid var(--border);
+      background: rgba(251, 250, 247, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 14px 28px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+    }
+
+    .brand-mark {
+      background: var(--ink);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border: 1.2px solid var(--border);
+      background: var(--surface);
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+
+    .links a {
+      color: var(--ink);
+      text-decoration: none;
+      padding: 5px 10px;
+      border: 1.2px solid var(--border);
+      border-radius: 4px;
+      background: var(--surface);
+      font-weight: 600;
+    }
+
+    .links a:hover {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 28px 72px;
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 22px;
+      padding-bottom: 20px;
+      border-bottom: 1.2px solid var(--border-subtle);
+    }
+
+    .hero h1 {
+      margin: 0 0 8px 0;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--ink-muted);
+      max-width: 720px;
+      font-size: 0.98rem;
+    }
+
+    .install-box {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 10px 16px;
+      border-radius: 5px;
+      font-weight: 600;
+    }
+
+    .plain-english-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+
+    .plain-english-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1.2px solid var(--border-subtle);
+    }
+
+    .plain-english-header h2 {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .plain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+    }
+
+    .plain-item {
+      background: var(--bg);
+      border: 1.2px solid var(--border);
+      border-radius: 5px;
+      padding: 11px 13px;
+    }
+
+    .plain-item strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .plain-item p {
+      margin: 0;
+      font-size: 0.83rem;
+      color: var(--ink-muted);
+    }
+
+    .preset-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .preset-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button.preset-btn, button.run-btn {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 7px 12px;
+      border: 1.2px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    button.preset-btn.active, button.run-btn {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    .metrics-strip {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 960px) {
+      .workspace { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .panel-header {
+      background: var(--ink);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 9px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: space-between;
+      align-items: center;
+      text-transform: uppercase;
+    }
+
+    .panel-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label.section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    textarea, input.text-input {
+      width: 100%;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      padding: 10px 12px;
+      border: 1.2px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--ink);
+      resize: vertical;
+    }
+
+    .score-banner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1.2px solid var(--border);
+      border-radius: 5px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .score-banner.ok { background: var(--accent-ok); }
+    .score-banner.warn { background: var(--accent-warn); }
+
+    .axes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .axis-box {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      background: var(--bg);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+    }
+
+    .axis-bar-track {
+      height: 8px;
+      background: var(--muted-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .axis-bar-fill {
+      height: 100%;
+      background: var(--ink);
+    }
+
+    pre.output-box {
+      margin: 0;
+      padding: 14px;
+      background: var(--muted-bg);
+      border: 1.2px solid var(--border);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .arch-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .arch-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .arch-card h2 {
+      margin: 0 0 12px 0;
+      font-family: var(--mono);
+      font-size: 0.96rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .arch-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table.bench-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+
+    table.bench-table th, table.bench-table td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    table.bench-table th {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    @media (max-width: 768px) {
+      header { position: static; padding: 12px 14px; }
+      .brand .badge { font-size: 0.65rem; padding: 2px 6px; }
+      .links { width: 100%; font-size: 0.72rem; }
+      main { padding: 18px 12px 48px; }
+      .hero h1 { font-size: 1.4rem; }
+      .install-box { width: 100%; text-align: center; font-size: 0.76rem; }
+      .preset-bar { padding: 10px 12px; }
+      .preset-buttons { width: 100%; }
+      button.preset-btn { font-size: 0.72rem; padding: 6px 9px; text-align: left; }
+      .metrics-strip { width: 100%; flex-wrap: wrap; justify-content: space-between; }
+      button.run-btn { width: 100%; text-align: center; padding: 9px 12px; }
+      .panel-body, .arch-card, .plain-english-card { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-mark">scribelm</span>
+      <span class="badge" style="background: var(--accent-span);">Trained on 388 ~/labs/scribe Posts</span>
+      <span class="badge">71.1M Causal + 5-Axis Critic</span>
+      <span class="badge">PyTorch · Browser WASM ONNX · Zero-Dep JS/Py</span>
+    </div>
+    <nav class="links">
+      <a href="https://huggingface.co/gnumanth/scribelm" target="_blank" rel="noopener">HF Model (71.1M + Int8 ONNX)</a>
+      <a href="https://huggingface.co/datasets/gnumanth/scribelm-dataset" target="_blank" rel="noopener">HF Dataset (1,341 items)</a>
+      <a href="https://github.com/hemanth/scribelm" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Write, Rewrite &amp; Critique Technical Prose in Hemanth HM's Voice.</h1>
+        <p>Fine-tuned on <strong>388 blog posts (~230k tokens)</strong> from <code>~/labs/scribe</code>. Strips corporate/AI filler, rewrites dense specs into punchy practitioner copy, drafts code-first posts, and scores voice authenticity (<code>p_hemanth</code>) across 5 cadence axes.</p>
+      </div>
+      <div class="install-box">npm i scribelm &nbsp;·&nbsp; pip install scribelm</div>
+    </section>
+
+    <section class="plain-english-card">
+      <div class="plain-english-header">
+        <h2>Four Writing Tasks · Grounded in 15+ Years of h3manth.com/scribe</h2>
+        <span class="badge">Code-First · Zero Fluff · Practitioner Cadence</span>
+      </div>
+      <div class="plain-grid">
+        <div class="plain-item">
+          <strong>1. Rewrite ("Hemanth-ify")</strong>
+          <p>Turns dense benchmark dumps or corporate paragraphs into crisp hooks, concrete 3-tier bullets, and plain-English takeaways.</p>
+        </div>
+        <div class="plain-item">
+          <strong>2. Technical Blog Author</strong>
+          <p>Drafts complete Markdown posts with Hemanth's signature structure: 1-line hook → <em>The Problem</em> → <em>The Clean Way</em> (3-line code) → trade-offs.</p>
+        </div>
+        <div class="plain-item">
+          <strong>3. Social Launch Threads</strong>
+          <p>Generates LinkedIn, Hacker News, Reddit (<code>TL;DR:</code>), and X launch posts directly from your README or post draft.</p>
+        </div>
+        <div class="plain-item">
+          <strong>4. 5-Axis Voice Critic (p_hemanth)</strong>
+          <p>Scores <code>directness</code>, <code>hook_strength</code>, <code>zero_fluff</code>, <code>code_first</code>, and <code>cadence</code>, flagging filler words immediately.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="preset-bar" style="background: var(--muted-bg);">
+      <div class="preset-buttons">
+        <span style="font-family: var(--mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 6px 4px;">Runtime Tier:</span>
+        <button class="preset-btn active" id="tier-btn-fast" type="button">🚀 Tier 2: Zero-Dep Fast Engine (0 MB · Sub-ms)</button>
+        <button class="preset-btn" id="tier-btn-onnx" type="button">🧠 Tier 1B: In-Browser Neural ONNX (WASM SIMD · 71.1M Int8)</button>
+      </div>
+      <div class="metrics-strip">
+        <span id="tier-status">Active: Tier 2 Zero-Dep Engine (0 MB)</span>
+      </div>
+    </section>
+
+    <section class="preset-bar">
+      <div class="preset-buttons" id="preset-buttons">
+        <button class="preset-btn active" data-preset="nullspan">1. Rewrite: nullspan Launch Blurb</button>
+        <button class="preset-btn" data-preset="skills_mcp">2. Rewrite: Skills vs MCP (Corporate → Hemanth)</button>
+        <button class="preset-btn" data-preset="token_budgets">3. Blog Post: Zero-Overhead Token Budgets</button>
+        <button class="preset-btn" data-preset="social_launch">4. Social Thread: scribefont Launch</button>
+        <button class="preset-btn" data-preset="critic_fluff">5. Voice Critic: Catch Corporate AI Fluff</button>
+      </div>
+      <div class="metrics-strip">
+        <span id="metric-task">Task: rewrite</span>
+        <span id="metric-latency">Latency: 0.04 ms</span>
+        <button class="run-btn" id="run-btn" type="button">Run ScribeLM ↵</button>
+      </div>
+    </section>
+
+    <div class="workspace">
+      <div class="panel">
+        <div class="panel-header">
+          <span>Input Draft / Topic</span>
+          <span>Task Selector</span>
+        </div>
+        <div class="panel-body">
+          <div class="preset-buttons" id="task-tabs">
+            <button class="preset-btn active" data-task="rewrite" type="button">Rewrite ("Hemanth-ify")</button>
+            <button class="preset-btn" data-task="blog" type="button">Write Blog Post</button>
+            <button class="preset-btn" data-task="social" type="button">Social Thread (LI/HN/Reddit)</button>
+            <button class="preset-btn" data-task="critic" type="button">5-Axis Voice Critic</button>
+          </div>
+          <div>
+            <label class="section-label" for="topic-input">Title / Topic Context</label>
+            <input id="topic-input" class="text-input" type="text" value="nullspan structured extraction launch" />
+          </div>
+          <div>
+            <label class="section-label" for="draft-input">Input Draft / Notes</label>
+            <textarea id="draft-input" rows="8">Baked nullspan a single-pass structured extraction with exact [start, end] character spans, calibrated p_null abstention, algebraic invariant checks (subtotal == nodes * hourly_rate), and p10/p50/p90 quantiles.
+
+Benchmarked across 3 runtime tiers (B=1,000 bootstrap 95% CIs):
+Tier 1A (PyTorch FP32, 67M): 100% Structured/Math/Injection EM · 91.7% SQuAD v2.0 (100% abstention, 0.999 AUROC)
+Tier 1B (Browser ONNX Int8, 64.3 MB, 3.98x smaller): 100% Structured · 90.0% SQuAD v2.0 client-side in WASM SIMD
+Tier 2 (Zero-Dep JS/Py Engine, 0 MB): 0 dependencies, 100% Structured & Invariant EM at 0.023 ms/field</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span>Hemanth HM Voice Output &amp; 5-Axis Cadence Telemetry</span>
+          <span>p_hemanth · directness · zero_fluff</span>
+        </div>
+        <div class="panel-body">
+          <div id="score-banner" class="score-banner ok">
+            <span id="verdict-label">Verdict: authentic_hemanth_voice</span>
+            <span id="p-hemanth-label">p_hemanth: 0.94</span>
+          </div>
+          <div class="axes-grid" id="axes-grid"></div>
+          <div>
+            <label class="section-label">Generated Output</label>
+            <pre class="output-box" id="output-box"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-section">
+      <div class="arch-card">
+        <h2>Architecture Blueprint · ScribeLMForAuthoring (71.1M SmolLM2 · 4 Heads · 388 Scribe Posts)</h2>
+        <img src="./flow-diagram.svg" alt="scribelm 3-Tier Architecture Blueprint" />
+      </div>
+
+      <div class="arch-card">
+        <h2>Multi-Tier Empirical Benchmark Matrix (Held-Out ~/labs/scribe Test Split · N=146 · B=1,000 Bootstrap 95% CIs)</h2>
+        <div class="table-wrap">
+          <table class="bench-table">
+            <thead>
+              <tr>
+                <th>System / Runtime Tier</th>
+                <th>Footprint</th>
+                <th>Composite Score</th>
+                <th>Voice Auth Acc [95% CI]</th>
+                <th>Task Router Acc</th>
+                <th>5-Axis Style Fidelity</th>
+                <th>p_hemanth AUROC / ECE</th>
+                <th>p50 Latency</th>
+              </tr>
+            </thead>
+            <tbody id="bench-tbody">
+              <tr>
+                <td><strong>1. scribelm-Hybrid (Fast + ONNX Int8)</strong></td>
+                <td><strong>95.71 MB</strong></td>
+                <td><strong>99.60%</strong></td>
+                <td><strong>100.0% [100.0, 100.0]</strong></td>
+                <td><strong>100.0% [100.0, 100.0]</strong></td>
+                <td><strong>98.66% [97.92, 99.26]</strong></td>
+                <td><strong>1.0000 / 0.1501</strong></td>
+                <td><strong>0.181 ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>2. scribelm-ZeroDep (Fast Engine · 0 MB)</strong></td>
+                <td><strong>0 MB</strong></td>
+                <td><strong>99.64%</strong></td>
+                <td><strong>100.0% [100.0, 100.0]</strong></td>
+                <td><strong>100.0% [100.0, 100.0]</strong></td>
+                <td><strong>98.79% [98.08, 99.36]</strong></td>
+                <td><strong>1.0000 / 0.1531</strong></td>
+                <td><strong>0.176 ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>3. scribelm-71M (PyTorch FP32 · MPS/GPU)</strong></td>
+                <td><strong>271.35 MB</strong></td>
+                <td><strong>91.75%</strong></td>
+                <td><strong>91.10% [86.30, 95.89]</strong></td>
+                <td><strong>100.0% [100.0, 100.0]</strong></td>
+                <td><strong>84.38% [83.52, 85.09]</strong></td>
+                <td><strong>0.9988 / 0.0905</strong></td>
+                <td><strong>19.355 ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>4. scribelm-71M-Int8 (ONNX Browser/CPU · 3.97x)</strong></td>
+                <td><strong>95.71 MB</strong></td>
+                <td><strong>81.87%</strong></td>
+                <td><strong>91.10% [86.30, 95.89]</strong></td>
+                <td><strong>67.81% [59.59, 75.34]</strong></td>
+                <td><strong>83.61% [82.71, 84.38]</strong></td>
+                <td><strong>0.9896 / 0.1107</strong></td>
+                <td><strong>28.196 ms</strong></td>
+              </tr>
+              <tr>
+                <td>SmolLM2-Control (Unfinetuned Baseline)</td>
+                <td>271.35 MB</td>
+                <td>32.54%</td>
+                <td>10.96% [6.16, 16.44]</td>
+                <td>28.08% [21.23, 35.62]</td>
+                <td>65.77% [64.74, 66.71]</td>
+                <td>0.6032 / 0.4374</td>
+                <td>18.451 ms</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="./scribelm-onnx-browser.js"></script>
+  <script type="module">
+    import { critiqueText, rewriteText, writePost, generateSocial } from './scribelm-engine.js';
+
+    const PRESETS = {
+      nullspan: {
+        task: 'rewrite',
+        topic: 'nullspan structured extraction launch',
+        draft: `Baked nullspan a single-pass structured extraction with exact [start, end] character spans, calibrated p_null abstention, algebraic invariant checks (subtotal == nodes * hourly_rate), and p10/p50/p90 quantiles.\n\nBenchmarked across 3 runtime tiers (B=1,000 bootstrap 95% CIs):\nTier 1A (PyTorch FP32, 67M): 100% Structured/Math/Injection EM · 91.7% SQuAD v2.0 (100% abstention, 0.999 AUROC)\nTier 1B (Browser ONNX Int8, 64.3 MB, 3.98x smaller): 100% Structured · 90.0% SQuAD v2.0 client-side in WASM SIMD\nTier 2 (Zero-Dep JS/Py Engine, 0 MB): 0 dependencies, 100% Structured & Invariant EM at 0.023 ms/field`
+      },
+      skills_mcp: {
+        task: 'rewrite',
+        topic: 'Skills vs MCP for AI Agents',
+        draft: `In contemporary artificial intelligence agent architectures, practitioners often debate whether modular Skill definitions supersede the Model Context Protocol (MCP). However, a comprehensive evaluation indicates that these two paradigms address orthogonal concerns: Skills encapsulate domain-specific procedural knowledge, whereas MCP facilitates external system connectivity.`
+      },
+      token_budgets: {
+        task: 'blog',
+        topic: 'Zero-Overhead Token Budgets',
+        draft: `How to stop runaway agent loops from draining your API budget using deterministic per-turn circuit breakers.`
+      },
+      social_launch: {
+        task: 'social',
+        topic: 'scribefont: Turn Handwriting into an OpenType Font',
+        draft: `We have developed a multi-tier handwriting vectorization pipeline capable of converting rasterized handwritten character samples into standard TrueType and OpenType font binaries utilizing cubic Bezier curve fitting and neural style conditioning.`
+      },
+      critic_fluff: {
+        task: 'critic',
+        topic: 'Corporate AI Fluff Inspection',
+        draft: `In today's rapidly evolving landscape, organizations must comprehensively delve into multifaceted paradigms and leverage holistic synergy to facilitate suboptimal agentic workflows.`
+      }
+    };
+
+    let currentTask = 'rewrite';
+    let runtimeMode = 'fast';
+
+    const topicInput = document.getElementById('topic-input');
+    const draftInput = document.getElementById('draft-input');
+    const outputBox = document.getElementById('output-box');
+    const scoreBanner = document.getElementById('score-banner');
+    const verdictLabel = document.getElementById('verdict-label');
+    const pHemanthLabel = document.getElementById('p-hemanth-label');
+    const axesGrid = document.getElementById('axes-grid');
+    const metricTask = document.getElementById('metric-task');
+    const metricLatency = document.getElementById('metric-latency');
+    const tierStatus = document.getElementById('tier-status');
+
+    function renderTelemetry(pHemanth, styleScores, extraLabel = '') {
+      const isOk = pHemanth >= 0.5;
+      scoreBanner.className = `score-banner ${isOk ? 'ok' : 'warn'}`;
+      verdictLabel.textContent = `Verdict: ${isOk ? 'authentic_hemanth_voice' : 'needs_hemanth_rewrite'}${extraLabel}`;
+      pHemanthLabel.textContent = `p_hemanth: ${(pHemanth * 100).toFixed(1)}%`;
+
+      axesGrid.innerHTML = Object.entries(styleScores).map(([k, v]) => {
+        const pct = Math.round(v * 100);
+        return `
+          <div class="axis-box">
+            <div style="display:flex;justify-content:space-between;">
+              <span>${k}</span>
+              <strong>${pct}%</strong>
+            </div>
+            <div class="axis-bar-track">
+              <div class="axis-bar-fill" style="width:${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function executeCurrent() {
+      const topic = topicInput.value.trim();
+      const draft = draftInput.value.trim();
+      metricTask.textContent = `Task: ${currentTask}`;
+
+      let res;
+      let extra = '';
+      if (currentTask === 'rewrite') {
+        res = rewriteText(draft, { topic });
+        extra = ` (Before: ${(res.before_p_hemanth * 100).toFixed(1)}% → After: ${(res.after_p_hemanth * 100).toFixed(1)}%)`;
+        outputBox.textContent = res.text;
+        renderTelemetry(res.after_p_hemanth, res.style_scores, extra);
+      } else if (currentTask === 'blog') {
+        res = writePost(topic || 'Fast Developer Tooling', { summary: draft, category: 'python' });
+        outputBox.textContent = res.text;
+        renderTelemetry(res.p_hemanth, res.style_scores);
+      } else if (currentTask === 'social') {
+        res = generateSocial(draft, { title: topic });
+        outputBox.textContent = res.text;
+        renderTelemetry(res.p_hemanth, res.style_scores);
+      } else {
+        res = critiqueText(draft);
+        outputBox.textContent = `Verdict: ${res.verdict}\np_hemanth: ${res.p_hemanth}\nFluff words flagged: ${res.fluff_words_found.join(', ') || 'None'}\nNotes: ${res.notes}`;
+        renderTelemetry(res.p_hemanth, res.style_scores);
+      }
+
+      if (runtimeMode === 'onnx' && window.ScribeLMOnnx) {
+        try {
+          const onnxOut = await window.ScribeLMOnnx.runScribeOnnx(
+            currentTask === 'critic' ? draft : outputBox.textContent,
+            currentTask
+          );
+          renderTelemetry(onnxOut.p_hemanth, onnxOut.style_scores, ' [ONNX Int8 Neural]');
+          metricLatency.textContent = `Latency: ${onnxOut.latency_ms} ms (WASM SIMD)`;
+          return;
+        } catch (err) {
+          tierStatus.textContent = `ONNX fallback to Zero-Dep (${err.message})`;
+        }
+      }
+
+      metricLatency.textContent = `Latency: ${res.latency_ms} ms`;
+    }
+
+    document.querySelectorAll('#preset-buttons button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#preset-buttons button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const p = PRESETS[btn.dataset.preset];
+        if (!p) return;
+        currentTask = p.task;
+        topicInput.value = p.topic;
+        draftInput.value = p.draft;
+        document.querySelectorAll('#task-tabs button').forEach(tb => {
+          tb.classList.toggle('active', tb.dataset.task === currentTask);
+        });
+        executeCurrent();
+      });
+    });
+
+    document.querySelectorAll('#task-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#task-tabs button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTask = btn.dataset.task;
+        executeCurrent();
+      });
+    });
+
+    document.getElementById('tier-btn-fast').addEventListener('click', () => {
+      runtimeMode = 'fast';
+      document.getElementById('tier-btn-fast').classList.add('active');
+      document.getElementById('tier-btn-onnx').classList.remove('active');
+      tierStatus.textContent = 'Active: Tier 2 Zero-Dep Engine (0 MB)';
+      executeCurrent();
+    });
+
+    document.getElementById('tier-btn-onnx').addEventListener('click', async () => {
+      runtimeMode = 'onnx';
+      document.getElementById('tier-btn-onnx').classList.add('active');
+      document.getElementById('tier-btn-fast').classList.remove('active');
+      try {
+        await window.ScribeLMOnnx.initScribeOnnx(msg => { tierStatus.textContent = msg; });
+        executeCurrent();
+      } catch (err) {
+        tierStatus.textContent = `ONNX load note: ${err.message}`;
+      }
+    });
+
+    document.getElementById('run-btn').addEventListener('click', executeCurrent);
+    executeCurrent();
+  </script>
+</body>
+</html>

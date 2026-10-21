@@ -1,0 +1,224 @@
+{
+  "benchmark": "ScribeLMBench v1.0",
+  "seed": 20261020,
+  "bootstrap_resamples": 1000,
+  "test_set_size": 146,
+  "corpus_posts": 388,
+  "environment": {
+    "os": "Darwin 25.5.0 (arm64)",
+    "python": "3.14.8",
+    "pytorch": "2.12.1",
+    "onnxruntime": "1.31.0",
+    "device": "mps"
+  },
+  "systems": [
+    {
+      "id": "scribelm_hybrid",
+      "name": "scribelm-Hybrid (Fast + ONNX Int8)",
+      "footprint_mb": 95.71,
+      "composite_accuracy_pct": 99.6,
+      "voice_accuracy": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "task_accuracy": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "style_fidelity": {
+        "mean": 98.66,
+        "ci95": [
+          97.92,
+          99.26
+        ]
+      },
+      "rewrite_voice_gain": 0.4009,
+      "calibration": {
+        "auroc": 1.0,
+        "ece": 0.1501,
+        "brier": 0.0299
+      },
+      "latency": {
+        "p50_ms": 0.181,
+        "p95_ms": 0.483,
+        "p99_ms": 21.468
+      }
+    },
+    {
+      "id": "scribelm_zerodep",
+      "name": "scribelm-ZeroDep (Fast Engine \u00b7 0 MB)",
+      "footprint_mb": 0.0,
+      "composite_accuracy_pct": 99.64,
+      "voice_accuracy": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "task_accuracy": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "style_fidelity": {
+        "mean": 98.79,
+        "ci95": [
+          98.08,
+          99.36
+        ]
+      },
+      "rewrite_voice_gain": 0.4009,
+      "calibration": {
+        "auroc": 1.0,
+        "ece": 0.1531,
+        "brier": 0.0321
+      },
+      "latency": {
+        "p50_ms": 0.176,
+        "p95_ms": 0.463,
+        "p99_ms": 0.539
+      }
+    },
+    {
+      "id": "scribelm_pt_fp32",
+      "name": "scribelm-71M (PyTorch FP32)",
+      "footprint_mb": 271.35,
+      "composite_accuracy_pct": 91.75,
+      "voice_accuracy": {
+        "mean": 91.1,
+        "ci95": [
+          86.3,
+          95.89
+        ]
+      },
+      "task_accuracy": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "style_fidelity": {
+        "mean": 84.38,
+        "ci95": [
+          83.52,
+          85.09
+        ]
+      },
+      "rewrite_voice_gain": 0.4009,
+      "calibration": {
+        "auroc": 0.9988,
+        "ece": 0.0905,
+        "brier": 0.0436
+      },
+      "latency": {
+        "p50_ms": 19.355,
+        "p95_ms": 46.846,
+        "p99_ms": 252.974
+      }
+    },
+    {
+      "id": "scribelm_onnx_int8",
+      "name": "scribelm-71M-Int8 (ONNX Browser/CPU)",
+      "footprint_mb": 95.71,
+      "composite_accuracy_pct": 81.87,
+      "voice_accuracy": {
+        "mean": 91.1,
+        "ci95": [
+          86.3,
+          95.89
+        ]
+      },
+      "task_accuracy": {
+        "mean": 67.81,
+        "ci95": [
+          59.59,
+          75.34
+        ]
+      },
+      "style_fidelity": {
+        "mean": 83.61,
+        "ci95": [
+          82.71,
+          84.38
+        ]
+      },
+      "rewrite_voice_gain": 0.4009,
+      "calibration": {
+        "auroc": 0.9896,
+        "ece": 0.1107,
+        "brier": 0.0648
+      },
+      "latency": {
+        "p50_ms": 28.196,
+        "p95_ms": 37.281,
+        "p99_ms": 48.489
+      }
+    },
+    {
+      "id": "smollm2_control",
+      "name": "SmolLM2-Control (Unfinetuned Baseline)",
+      "footprint_mb": 271.35,
+      "composite_accuracy_pct": 32.54,
+      "voice_accuracy": {
+        "mean": 10.96,
+        "ci95": [
+          6.16,
+          16.44
+        ]
+      },
+      "task_accuracy": {
+        "mean": 28.08,
+        "ci95": [
+          21.23,
+          35.62
+        ]
+      },
+      "style_fidelity": {
+        "mean": 65.77,
+        "ci95": [
+          64.74,
+          66.71
+        ]
+      },
+      "rewrite_voice_gain": 0.0,
+      "calibration": {
+        "auroc": 0.6032,
+        "ece": 0.4374,
+        "brier": 0.272
+      },
+      "latency": {
+        "p50_ms": 18.451,
+        "p95_ms": 28.2,
+        "p99_ms": 44.962
+      }
+    }
+  ],
+  "qualitative_samples": [
+    {
+      "title": "nullspan structured extraction launch",
+      "draft": "Baked nullspan a single-pass structured extraction with exact [start, end] character spans, calibrated p_null abstention, algebraic invariant checks (subtotal == nodes * hourly_rate), and p10/p50/p90 quantiles.",
+      "zerodep_rewrite": "Meet nullspan: a structured extraction engine that pulls exact `[start, end]` spans from text, knows when a value isn't there instead of making one up (`p_null`), and double-checks the math (`subtotal == nodes * hourly_rate`).\n\nYou can run it three ways:\n- \u26a1 Full neural model (PyTorch, 67M): 98.8% overall \u2014 100% on structured & math checks, 91.7% on SQuAD v2.0, and 100% at spotting unanswerable prompts.\n- \ud83c\udf10 Browser-native (64 MB WASM): 4\u00d7 smaller quantized model running entirely in the browser with 90% SQuAD v2.0 accuracy.\n- \ud83d\ude80 Zero-dependency JS/Python (0 MB): Deterministic lexical + AST math engine \u2014 100% on structured logs/invoices in 0.005 ms.",
+      "neural_generation": "##  Lazite a) and got the a method. **get**a`(1025379684/* to * is an, was gets some of my get it's been done with `{x}  :\n   \n```python: {_he. }",
+      "neural_p_hemanth": 0.9674,
+      "after_p_hemanth": 0.9488
+    },
+    {
+      "title": "Skills vs MCP for AI Agents",
+      "draft": "In contemporary artificial intelligence agent architectures, practitioners often debate whether modular Skill definitions supersede the Model Context Protocol (MCP).",
+      "zerodep_rewrite": "Skills vs MCP? Wrong question.\n\nBoth are tools for building AI agents. But they solve different problems:\n- Skills = what your agent knows how to do\n- MCP = what your agent can access\n\nOne teaches. One connects. You need both.",
+      "neural_generation": "It to find a the and would be on it with one of *coml-to make them do what I can.\n\u2022 Problem:\n## The is was been implemented in this into an simple but try for some features that have tried as to create a the more \"1\" and help me be on",
+      "neural_p_hemanth": 0.9793,
+      "after_p_hemanth": 0.9612
+    }
+  ]
+}
