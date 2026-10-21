@@ -60,8 +60,8 @@ class ScribeLMOnnxWrapper(nn.Module):
 
 def main() -> None:
     ONNX_DIR.mkdir(parents=True, exist_ok=True)
-    cfg = ScribeLMConfig.from_pretrained(ARTIFACT_DIR)
-    model = ScribeLMForAuthoring.from_pretrained(ARTIFACT_DIR, config=cfg, dtype=torch.float32)
+    cfg = ScribeLMConfig.from_pretrained(ARTIFACT_DIR, trust_remote_code=True)
+    model = ScribeLMForAuthoring.from_pretrained(ARTIFACT_DIR, config=cfg, trust_remote_code=True).float()
     model.eval()
 
     wrapper = ScribeLMOnnxWrapper(model).eval()

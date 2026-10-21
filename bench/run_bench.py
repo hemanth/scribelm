@@ -31,7 +31,15 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "training"))
 sys.path.insert(0, str(ROOT / "python" / "src"))
 
-from modeling_scribelm import STYLE_AXES, TASK_NAMES, TASK_TO_ID, ScribeLMConfig, ScribeLMForAuthoring
+from modeling_scribelm import (
+    HEMANTH_SYSTEM_PROMPT,
+    STYLE_AXES,
+    TASK_NAMES,
+    TASK_TO_ID,
+    ScribeLMConfig,
+    ScribeLMForAuthoring,
+)
+from train_gcp import build_user_message
 from scribelm import critique_text, generate_social, rewrite_text, write_post
 
 SEED = 20261020
@@ -129,13 +137,18 @@ def main() -> None:
     ]
     print(f"Loaded {len(test_rows)} held-out test items from data/test.jsonl")
 
-    cfg = ScribeLMConfig.from_pretrained(ARTIFACT_DIR)
-    tokenizer = AutoTokenizer.from_pretrained(ARTIFACT_DIR)
+    cfg = ScribeLMConfig.from_pretrained(ARTIFACT_DIR, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(ARTIFACT_DIR, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-    pt_model = ScribeLMForAuthoring.from_pretrained(ARTIFACT_DIR, config=cfg, dtype=torch.float32).to(device)
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+    pt_model = ScribeLMForAuthoring.from_pretrained(ARTIFACT_DIR, config=cfg, trust_remote_code=True).float().to(device)
     pt_model.eval()
 
     # Unfinetuned control model (random task/style/voice heads)
@@ -152,8 +165,8 @@ def main() -> None:
     for sys_id, sys_name, mode, footprint in [
         ("scribelm_hybrid", "scribelm-Hybrid (Fast + ONNX Int8)", "hybrid", int8_mb),
         ("scribelm_zerodep", "scribelm-ZeroDep (Fast Engine · 0 MB)", "zerodep", 0.0),
-        ("scribelm_pt_fp32", "scribelm-71M (PyTorch FP32)", "pt", fp32_mb),
-        ("scribelm_onnx_int8", "scribelm-71M-Int8 (ONNX Browser/CPU)", "onnx", int8_mb),
+        ("scribelm_pt_fp32", "scribelm-135M (PyTorch FP32)", "pt", fp32_mb),
+        ("scribelm_onnx_int8", "scribelm-135M-Int8 (ONNX Browser/CPU)", "onnx", int8_mb),
         ("smollm2_control", "SmolLM2-Control (Unfinetuned Baseline)", "ctrl", fp32_mb),
     ]:
         voice_correct: List[float] = []
@@ -172,6 +185,14 @@ def main() -> None:
 
             # Evaluate text under scrutiny: for critic, evaluate input_text; for others, evaluate target/rewritten
             eval_text = row["input_text"] if row["task"] == "critic" else row["target_text"]
+            chat_str = tokenizer.apply_chat_template(
+                [
+                    {"role": "system", "content": HEMANTH_SYSTEM_PROMPT},
+                    {"role": "user", "content": build_user_message(row)},
+                    {"role": "assistant", "content": eval_text[:360].strip()},
+                ],
+                tokenize=False,
+            )
 
             t0 = time.perf_counter()
             if mode == "zerodep":
@@ -184,7 +205,7 @@ def main() -> None:
                     rewrite_gains.append(float(rw["after_p_hemanth"] - rw["before_p_hemanth"]))
             elif mode in ("pt", "ctrl"):
                 active_m = pt_model if mode == "pt" else ctrl_model
-                enc = tokenizer(prompt + eval_text[:300], return_tensors="pt", truncation=True, max_length=160)
+                enc = tokenizer(chat_str, return_tensors="pt", truncation=True, max_length=180)
                 with torch.no_grad():
                     out = active_m(
                         input_ids=enc["input_ids"].to(device),
@@ -197,7 +218,7 @@ def main() -> None:
                     rw = rewrite_text(row["input_text"], topic=row.get("title", ""))
                     rewrite_gains.append(float(rw["after_p_hemanth"] - rw["before_p_hemanth"]) if mode == "pt" else 0.0)
             elif mode == "onnx":
-                enc = tokenizer(prompt + eval_text[:300], return_tensors="np", truncation=True, max_length=160)
+                enc = tokenizer(chat_str, return_tensors="np", truncation=True, max_length=180)
                 ids_np = enc["input_ids"].astype(np.int64)
                 mask_np = enc["attention_mask"].astype(np.int64)
                 _, p_hem_arr, style_arr, task_arr = ort_sess.run(
@@ -216,7 +237,7 @@ def main() -> None:
                 pred_style = [float(c_res["style_scores"][k]) for k in STYLE_AXES]
                 pred_task = infer_task_zero_dep(prompt)
                 if 0.38 <= p_hem <= 0.62:
-                    enc = tokenizer(prompt + eval_text[:300], return_tensors="np", truncation=True, max_length=160)
+                    enc = tokenizer(chat_str, return_tensors="np", truncation=True, max_length=180)
                     _, p_hem_arr, style_arr, task_arr = ort_sess.run(
                         None,
                         {
@@ -283,20 +304,41 @@ def main() -> None:
                 "modular Skill definitions supersede the Model Context Protocol (MCP)."
             ),
         },
+        {
+            "task": "blog",
+            "category": "ai",
+            "title": "Why Every Agent Needs an Escape Hatch",
+            "draft": (
+                "Deterministic guardrails vs probabilistic LLM loops, calibrated p_null abstention, "
+                "and zero-dep local fallbacks."
+            ),
+        },
     ]
     qualitative_samples = []
     for sp in sample_prompts:
-        prompt_str = f"<|task:rewrite|>\nTopic: {sp['title']}\nDraft:\n{sp['draft']}\n<|hemanth|>\n"
-        neural_gen = pt_model.generate_text(tokenizer, prompt_str, max_new_tokens=64, temperature=0.2)
-        fast_gen = rewrite_text(sp["draft"], topic=sp["title"])
+        user_msg = build_user_message({
+            "task": sp["task"],
+            "category": sp.get("category", "ai"),
+            "title": sp["title"],
+            "input_text": sp["draft"],
+        })
+        neural_gen = pt_model.generate_text(tokenizer, user_msg, max_new_tokens=110)
+        fast_gen = (
+            write_post(sp["title"], notes=sp["draft"], category=sp.get("category", "ai"))
+            if sp["task"] == "blog"
+            else rewrite_text(sp["draft"], topic=sp["title"])
+        )
         qualitative_samples.append({
+            "task": sp["task"],
             "title": sp["title"],
             "draft": sp["draft"],
-            "zerodep_rewrite": fast_gen["text"],
+            "zerodep_rewrite": fast_gen.get("markdown") or fast_gen.get("text", ""),
             "neural_generation": neural_gen["text"],
             "neural_p_hemanth": neural_gen["p_hemanth"],
-            "after_p_hemanth": fast_gen["after_p_hemanth"],
+            "after_p_hemanth": fast_gen.get("after_p_hemanth") or fast_gen.get("p_hemanth", 0.9),
         })
+        print(f"\n--- Qualitative Sample [{sp['task']}]: {sp['title']} ---", flush=True)
+        print(f"Neural (134.8M, p_hemanth={neural_gen['p_hemanth']}):\n{neural_gen['text']}", flush=True)
 
     BENCH_DIR.mkdir(parents=True, exist_ok=True)
     results_payload = {

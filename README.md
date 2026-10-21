@@ -1,9 +1,9 @@
 # scribelm
 
-Write, rewrite, and critique technical prose in Hemanth HM's voice across PyTorch (`71.1M`), Browser WebAssembly ONNX (`Int8`), and a Zero-Dependency JS/Python engine.
+Write, rewrite, and critique technical prose in Hemanth HM's voice across PyTorch (`134.8M`), Browser WebAssembly ONNX (`Int8`), and a Zero-Dependency JS/Python engine.
 
 - **Interactive Playground (Browser WASM ONNX + Zero-Dep Engine)**: [https://hemanth.github.io/scribelm/](https://hemanth.github.io/scribelm/)
-- **Fine-Tuned Hugging Face Model (71.1M PyTorch + Int8 ONNX)**: [https://huggingface.co/gnumanth/scribelm](https://huggingface.co/gnumanth/scribelm)
+- **Fine-Tuned Hugging Face Model (134.8M PyTorch + Int8 ONNX)**: [https://huggingface.co/gnumanth/scribelm](https://huggingface.co/gnumanth/scribelm)
 - **Hugging Face Dataset (388 `~/labs/scribe` Posts · 1,341 Multi-Task Items)**: [https://huggingface.co/datasets/gnumanth/scribelm-dataset](https://huggingface.co/datasets/gnumanth/scribelm-dataset)
 - **Empirical Science Report**: [`bench/SCIENCE_REPORT.md`](./bench/SCIENCE_REPORT.md)
 
@@ -35,7 +35,7 @@ social = writer.social(post["text"])
 score = writer.critique(post["text"])
 ```
 
-Pass `backend="hf"` or `backend="onnx"` to run the fine-tuned `71.1M` `ScribeLMForAuthoring` transformer checkpoint (`gnumanth/scribelm`).
+Pass `backend="hf"` or `backend="onnx"` to run the fine-tuned `134.8M` `ScribeLMForAuthoring` transformer checkpoint (`gnumanth/scribelm`).
 
 ## License
 

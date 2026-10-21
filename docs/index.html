@@ -441,11 +441,11 @@
     <div class="brand">
       <span class="brand-mark">scribelm</span>
       <span class="badge" style="background: var(--accent-span);">Trained on 388 ~/labs/scribe Posts</span>
-      <span class="badge">71.1M Causal + 5-Axis Critic</span>
+      <span class="badge">134.8M Causal + 5-Axis Critic</span>
       <span class="badge">PyTorch · Browser WASM ONNX · Zero-Dep JS/Py</span>
     </div>
     <nav class="links">
-      <a href="https://huggingface.co/gnumanth/scribelm" target="_blank" rel="noopener">HF Model (71.1M + Int8 ONNX)</a>
+      <a href="https://huggingface.co/gnumanth/scribelm" target="_blank" rel="noopener">HF Model (134.8M + Int8 ONNX)</a>
       <a href="https://huggingface.co/datasets/gnumanth/scribelm-dataset" target="_blank" rel="noopener">HF Dataset (1,341 items)</a>
       <a href="https://github.com/hemanth/scribelm" target="_blank" rel="noopener">GitHub</a>
     </nav>
@@ -489,7 +489,7 @@
       <div class="preset-buttons">
         <span style="font-family: var(--mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 6px 4px;">Runtime Tier:</span>
         <button class="preset-btn active" id="tier-btn-fast" type="button">🚀 Tier 2: Zero-Dep Fast Engine (0 MB · Sub-ms)</button>
-        <button class="preset-btn" id="tier-btn-onnx" type="button">🧠 Tier 1B: In-Browser Neural ONNX (WASM SIMD · 71.1M Int8)</button>
+        <button class="preset-btn" id="tier-btn-onnx" type="button">🧠 Tier 1B: In-Browser Neural ONNX (WASM SIMD · 134.8M Int8)</button>
       </div>
       <div class="metrics-strip">
         <span id="tier-status">Active: Tier 2 Zero-Dep Engine (0 MB)</span>
@@ -561,7 +561,7 @@ Tier 2 (Zero-Dep JS/Py Engine, 0 MB): 0 dependencies, 100% Structured & Invarian
 
     <div class="arch-section">
       <div class="arch-card">
-        <h2>Architecture Blueprint · ScribeLMForAuthoring (71.1M SmolLM2 · 4 Heads · 388 Scribe Posts)</h2>
+        <h2>Architecture Blueprint · ScribeLMForAuthoring (134.8M SmolLM2 · 4 Heads · 388 Scribe Posts)</h2>
         <img src="./flow-diagram.svg" alt="scribelm 3-Tier Architecture Blueprint" />
       </div>
 
@@ -584,13 +584,13 @@ Tier 2 (Zero-Dep JS/Py Engine, 0 MB): 0 dependencies, 100% Structured & Invarian
             <tbody id="bench-tbody">
               <tr>
                 <td><strong>1. scribelm-Hybrid (Fast + ONNX Int8)</strong></td>
-                <td><strong>95.71 MB</strong></td>
-                <td><strong>99.60%</strong></td>
+                <td><strong>157.84 MB</strong></td>
+                <td><strong>99.59%</strong></td>
                 <td><strong>100.0% [100.0, 100.0]</strong></td>
                 <td><strong>100.0% [100.0, 100.0]</strong></td>
-                <td><strong>98.66% [97.92, 99.26]</strong></td>
-                <td><strong>1.0000 / 0.1501</strong></td>
-                <td><strong>0.181 ms</strong></td>
+                <td><strong>98.63% [97.89, 99.26]</strong></td>
+                <td><strong>1.0000 / 0.1498</strong></td>
+                <td><strong>0.666 ms</strong></td>
               </tr>
               <tr>
                 <td><strong>2. scribelm-ZeroDep (Fast Engine · 0 MB)</strong></td>
@@ -600,37 +600,37 @@ Tier 2 (Zero-Dep JS/Py Engine, 0 MB): 0 dependencies, 100% Structured & Invarian
                 <td><strong>100.0% [100.0, 100.0]</strong></td>
                 <td><strong>98.79% [98.08, 99.36]</strong></td>
                 <td><strong>1.0000 / 0.1531</strong></td>
-                <td><strong>0.176 ms</strong></td>
+                <td><strong>0.584 ms</strong></td>
               </tr>
               <tr>
-                <td><strong>3. scribelm-71M (PyTorch FP32 · MPS/GPU)</strong></td>
-                <td><strong>271.35 MB</strong></td>
-                <td><strong>91.75%</strong></td>
-                <td><strong>91.10% [86.30, 95.89]</strong></td>
-                <td><strong>100.0% [100.0, 100.0]</strong></td>
-                <td><strong>84.38% [83.52, 85.09]</strong></td>
-                <td><strong>0.9988 / 0.0905</strong></td>
-                <td><strong>19.355 ms</strong></td>
+                <td><strong>3. scribelm-135M (PyTorch FP32)</strong></td>
+                <td><strong>514.45 MB</strong></td>
+                <td><strong>91.7%</strong></td>
+                <td><strong>96.58% [93.84, 99.32]</strong></td>
+                <td><strong>91.1% [86.3, 95.89]</strong></td>
+                <td><strong>85.79% [84.62, 86.89]</strong></td>
+                <td><strong>1.0000 / 0.0370</strong></td>
+                <td><strong>155.177 ms</strong></td>
               </tr>
               <tr>
-                <td><strong>4. scribelm-71M-Int8 (ONNX Browser/CPU · 3.97x)</strong></td>
-                <td><strong>95.71 MB</strong></td>
-                <td><strong>81.87%</strong></td>
-                <td><strong>91.10% [86.30, 95.89]</strong></td>
-                <td><strong>67.81% [59.59, 75.34]</strong></td>
-                <td><strong>83.61% [82.71, 84.38]</strong></td>
-                <td><strong>0.9896 / 0.1107</strong></td>
-                <td><strong>28.196 ms</strong></td>
+                <td><strong>4. scribelm-135M-Int8 (ONNX Browser/CPU)</strong></td>
+                <td><strong>157.84 MB</strong></td>
+                <td><strong>89.57%</strong></td>
+                <td><strong>92.47% [88.36, 96.58]</strong></td>
+                <td><strong>89.73% [84.25, 94.52]</strong></td>
+                <td><strong>85.54% [84.24, 86.83]</strong></td>
+                <td><strong>1.0000 / 0.0680</strong></td>
+                <td><strong>135.594 ms</strong></td>
               </tr>
               <tr>
                 <td>SmolLM2-Control (Unfinetuned Baseline)</td>
-                <td>271.35 MB</td>
-                <td>32.54%</td>
-                <td>10.96% [6.16, 16.44]</td>
-                <td>28.08% [21.23, 35.62]</td>
-                <td>65.77% [64.74, 66.71]</td>
-                <td>0.6032 / 0.4374</td>
-                <td>18.451 ms</td>
+                <td>514.45 MB</td>
+                <td>58.4%</td>
+                <td>91.1% [86.3, 95.89]</td>
+                <td>7.53% [3.42, 11.64]</td>
+                <td>65.66% [64.62, 66.62]</td>
+                <td>0.4482 / 0.3873</td>
+                <td>148.337 ms</td>
               </tr>
             </tbody>
           </table>

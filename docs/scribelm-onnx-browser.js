@@ -41,7 +41,7 @@ export async function initScribeOnnx(onProgress = () => {}) {
     onProgress('Loading onnxruntime-web WASM SIMD...');
     const ort = await loadScript(ORT_CDN);
     ort.env.wasm.numThreads = 1;
-    onProgress('Downloading gnumanth/scribelm Int8 ONNX (~71M params)...');
+    onProgress('Downloading gnumanth/scribelm Int8 ONNX (134.8M params)...');
     ortSession = await ort.InferenceSession.create(HF_ONNX_URL, {
       executionProviders: ['wasm'],
       graphOptimizationLevel: 'all'
@@ -61,7 +61,8 @@ export async function initScribeOnnx(onProgress = () => {}) {
 export async function runScribeOnnx(text, task = 'rewrite') {
   const sess = await initScribeOnnx();
   const ort = window.ort;
-  const prompt = `<|task:${task}|>\n${text}\n<|hemanth|>\n`;
+  const sys = 'You are Hemanth HM (h3manth.com/scribe). Write direct, punchy, zero-fluff practitioner prose with short paragraphs, concrete metrics, and bullet points.';
+  const prompt = `<|im_start|>system\n${sys}<|im_end|>\n<|im_start|>user\nTask (${task}):\n${text}<|im_end|>\n<|im_start|>assistant\n`;
   const ids = encodeTextToIds(prompt, 96);
   const seqLen = ids.length;
 

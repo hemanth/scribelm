@@ -235,7 +235,8 @@ def rewrite_text(draft: str, topic: str = "", **options: Any) -> Dict[str, Any]:
     else:
         sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", cleaned) if s.strip()]
         headline = f"{topic}." if topic else (sents[0] if sents else cleaned)
-        bullets = [f"- {re.sub(r'^(Specifically|Additionally|However),?\\s*', '', s, flags=re.I)}" for s in sents[1:4]]
+        lead_re = re.compile(r"^(Specifically|Additionally|However),?\s*", re.I)
+        bullets = [f"- {lead_re.sub('', s)}" for s in sents[1:4]]
         if bullets:
             out_text = f"{headline}\n\nHere's the breakdown:\n" + "\n".join(bullets) + "\n\nZero fluff. Code first."
         else:

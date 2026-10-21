@@ -24,7 +24,7 @@
 
   <!-- Outer Cluster -->
   <rect x="16" y="16" width="1048" height="308" class="box-dashed" />
-  <text x="32" y="38" class="role">SCRIBELM · 3-TIER HEMANTH HM VOICE &amp; AUTHORING ARCHITECTURE (388 POSTS · 71.1M NEURAL + ZERO-DEP ENGINE)</text>
+  <text x="32" y="38" class="role">SCRIBELM · 3-TIER HEMANTH HM VOICE &amp; AUTHORING ARCHITECTURE (388 POSTS · 134.8M NEURAL + ZERO-DEP ENGINE)</text>
 
   <!-- Stage 1: Corpus & Prompt Input -->
   <rect x="34" y="64" width="210" height="236" class="box" />
@@ -64,11 +64,11 @@
   <rect x="564" y="54" width="256" height="256" class="hero-box" />
   <rect x="580" y="70" width="184" height="20" class="badge-inv" />
   <text x="588" y="84" class="role-inv">[ TIER 1 · NEURAL ENGINE ]</text>
-  <text x="580" y="114" class="title-inv">ScribeLMForAuthoring (71.1M)</text>
-  <text x="580" y="134" class="sub-inv">• 12-Layer SmolLM2 Transformer</text>
+  <text x="580" y="114" class="title-inv">ScribeLMForAuthoring (134.8M)</text>
+  <text x="580" y="134" class="sub-inv">• 30-Layer SmolLM2 Transformer</text>
   <text x="580" y="152" class="sub-inv">• Hidden d=576 · Eager Attention</text>
-  <text x="580" y="170" class="sub-inv">• Tier 1A: PyTorch FP32 (271 MB)</text>
-  <text x="580" y="188" class="sub-inv">• Tier 1B: ONNX QUInt8 (72 MB WASM)</text>
+  <text x="580" y="170" class="sub-inv">• Tier 1A: PyTorch FP32 (515 MB)</text>
+  <text x="580" y="188" class="sub-inv">• Tier 1B: ONNX QUInt8 (130 MB WASM)</text>
   <line x1="580" y1="204" x2="804" y2="204" stroke="#ffffff" stroke-width="1" stroke-dasharray="3,3" />
   <text x="580" y="224" class="title-inv">4 Joint Multi-Task Heads</text>
   <text x="580" y="244" class="sub-inv">• lm_head (49,152 vocab causal)</text>

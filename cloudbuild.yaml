@@ -1,0 +1,46 @@
+steps:
+  - name: 'pytorch/pytorch:2.5.1-cuda12.4-cudnn9-runtime'
+    id: 'train-quantize-bench-deploy'
+    entrypoint: 'bash'
+    env:
+      - 'HF_TOKEN=${_HF_TOKEN}'
+      - 'GH_TOKEN=${_GH_TOKEN}'
+    args:
+      - '-c'
+      - |
+        set -euo pipefail
+        apt-get update -qq && apt-get install -y -qq git >/dev/null
+        pip install --quiet "transformers==4.48.3" "huggingface_hub==0.28.1" "onnx==1.17.0" "onnxruntime==1.20.1" safetensors accelerate
+
+        echo "=== [GCP Step 1/4] Training intact 30-layer ScribeLMForAuthoring (134.8M) ==="
+        python3 training/train_gcp.py
+
+        echo "=== [GCP Step 2/4] Exporting & Quantizing QUInt8 ONNX (model_quantized.onnx) ==="
+        python3 training/export_onnx.py
+
+        echo "=== [GCP Step 3/4] Running Scientific Benchmark Suite (N=146, B=1,000 Bootstrap CIs) ==="
+        python3 bench/run_bench.py
+
+        echo "=== [GCP Step 4/4] Publishing to Hugging Face Hub & Pushing to GitHub ==="
+        python3 training/gcp_publish.py
+
+        git clone "https://x-access-token:${_GH_TOKEN}@github.com/hemanth/scribelm.git" /tmp/gh_repo
+        cp -f README.md cloudbuild.yaml .gcloudignore /tmp/gh_repo/
+        cp -rf training/* /tmp/gh_repo/training/
+        cp -rf python/* /tmp/gh_repo/python/
+        cp -rf bench/* /tmp/gh_repo/bench/
+        cp -rf docs/* /tmp/gh_repo/docs/
+        cd /tmp/gh_repo
+        git config user.name "Hemanth HM"
+        git config user.email "hemanth.hm@gmail.com"
+        git add -A
+        git commit -m "Train intact 30-layer 134.8M ScribeLM on GCP (hemanth-hm) and sync HF + benchmarks" || echo "No git changes"
+        git push origin main
+        echo "=== GCP Build, HF Upload, and GitHub Deploy Complete ==="
+
+options:
+  machineType: 'E2_HIGHCPU_32'
+timeout: '1800s'
+substitutions:
+  _HF_TOKEN: ''
+  _GH_TOKEN: ''
